@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cmake \
     libprotobuf-dev \
     wget \
+    curl \
     ca-certificates \
     zlib1g-dev \
     libtool \
