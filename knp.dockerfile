@@ -3,7 +3,7 @@ FROM ${BASE_IMAGE} AS builder
 WORKDIR /app
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     build-essential \
     gcc \
     g++ \

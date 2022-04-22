@@ -4,7 +4,7 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND noninteractive
 ARG JPP_VERSION=2.0.0-rc3
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get -q update && apt-get install -yq --no-install-recommends \
     build-essential \
     gcc \
     g++ \
