@@ -1,0 +1,11 @@
+name: clean-image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          docker image prune --force
