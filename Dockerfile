@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Build and install Juman++
 RUN wget https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/jumanpp-${JPP_VERSION}.tar.xz -qO - \
-    | tar Jxvf - \
+    | tar Jxf - \
     && cd jumanpp-${JPP_VERSION} \
     && mkdir bld \
     && cd bld \
