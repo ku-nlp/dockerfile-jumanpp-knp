@@ -15,7 +15,7 @@ jobs:
       max-parallel: 4
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:18.04", "ubuntu:20.04"]  # Juman++ cannot be build on ubuntu:22.04
+        base-image: ["ubuntu:18.04", "ubuntu:20.04"]  # Juman++ cannot be built on ubuntu:22.04
         include:
           - base-image: "ubuntu:18.04"
             tag: "ubuntu18.04"
