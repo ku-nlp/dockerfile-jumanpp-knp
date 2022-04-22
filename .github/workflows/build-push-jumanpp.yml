@@ -1,4 +1,4 @@
-name: build-push
+name: build-push-jumanpp
 
 on:
   push:
