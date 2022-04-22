@@ -24,6 +24,7 @@ RUN git clone --depth 1 https://github.com/ku-nlp/knp.git \
     && ./autogen.sh \
     && wget -q http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dict-latest-bin.zip \
     && unzip knp-dict-latest-bin.zip \
+    && rm -f knp-dict-latest-bin.zip \
     && cp -ars $(pwd)/dict-bin/* ./dict \
     && ./configure \
     && make -j "$(nproc)" \
