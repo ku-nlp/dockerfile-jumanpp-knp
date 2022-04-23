@@ -33,14 +33,14 @@ jobs:
       - uses: docker/setup-qemu-action@v1
       - uses: docker/setup-buildx-action@v1
 
-      - uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ github.ref }}-${{ github.sha }}
-          restore-keys: |
-            ${{ github.ref }}-${{ github.sha }}
-            ${{ github.ref }}
-            refs/head/main
+      # - uses: actions/cache@v3
+      #   with:
+      #     path: /tmp/.buildx-cache
+      #     key: ${{ github.ref }}-${{ github.sha }}
+      #     restore-keys: |
+      #       ${{ github.ref }}-${{ github.sha }}
+      #       ${{ github.ref }}
+      #       refs/head/main
 
       - name: Build and push
         uses: docker/build-push-action@v2
@@ -51,8 +51,8 @@ jobs:
           push: false
           tags: nobug5c9/knp:${{ matrix.tag }}-builder
           target: builder
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+          # cache-from: type=local,src=/tmp/.buildx-cache
+          # cache-to: type=local,dest=/tmp/.buildx-cache
 
       # - name: Move cache
       #   run: |
@@ -84,14 +84,14 @@ jobs:
       - uses: docker/setup-qemu-action@v1
       - uses: docker/setup-buildx-action@v1
 
-      - uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ github.ref }}-${{ github.sha }}
-          restore-keys: |
-            ${{ github.ref }}-${{ github.sha }}
-            ${{ github.ref }}
-            refs/head/main
+      # - uses: actions/cache@v3
+      #   with:
+      #     path: /tmp/.buildx-cache
+      #     key: ${{ github.ref }}-${{ github.sha }}
+      #     restore-keys: |
+      #       ${{ github.ref }}-${{ github.sha }}
+      #       ${{ github.ref }}
+      #       refs/head/main
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -108,4 +108,4 @@ jobs:
           push: true
           tags: nobug5c9/knp:${{ matrix.tag }}
           # target: builder
-          cache-from: type=local,src=/tmp/.buildx-cache
+          # cache-from: type=local,src=/tmp/.buildx-cache
