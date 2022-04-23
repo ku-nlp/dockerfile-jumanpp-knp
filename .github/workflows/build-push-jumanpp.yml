@@ -10,7 +10,7 @@ on:
 
 jobs:
   builder:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       max-parallel: 4
       fail-fast: false
@@ -54,7 +54,7 @@ jobs:
 
   build-push:
     needs: builder
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       max-parallel: 4
       fail-fast: false
