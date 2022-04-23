@@ -21,9 +21,9 @@ jobs:
         base-image: ["ubuntu:18.04", "ubuntu:20.04"]  # Juman++ cannot be built on ubuntu:22.04
         include:
           - base-image: "ubuntu:18.04"
-            tag: "ubuntu18.04"
+            tag: "ubuntu18.04-builder"
           - base-image: "ubuntu:20.04"
-            tag: "ubuntu20.04"
+            tag: "ubuntu20.04-builder"
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v1
@@ -46,7 +46,7 @@ jobs:
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: BASE_IMAGE=${{ matrix.base-image }}
           push: false
-          tags: nobug5c9/jumanpp:${{ matrix.tag }}-builder
+          tags: nobug5c9/jumanpp:${{ matrix.tag }}
           target: builder
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
