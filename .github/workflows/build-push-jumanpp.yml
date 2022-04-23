@@ -48,8 +48,8 @@ jobs:
           push: false
           tags: nobug5c9/jumanpp:${{ matrix.tag }}-builder
           target: builder
-          cache-from: nobug5c9/jumanpp:${{ matrix.tag }}-builder
-          cache-to: nobug5c9/jumanpp:${{ matrix.tag }}-builder
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
 
       # - name: Move cache
       #   run: |
@@ -95,4 +95,4 @@ jobs:
           push: true
           tags: nobug5c9/jumanpp:${{ matrix.tag }}
           # target: builder
-          # cache-from: type=local,src=/tmp/.buildx-cache
+          cache-from: type=local,src=/tmp/.buildx-cache
