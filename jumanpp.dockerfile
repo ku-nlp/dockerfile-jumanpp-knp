@@ -22,7 +22,7 @@ RUN wget https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/jum
     && mkdir bld \
     && cd bld \
     && cmake .. -DCMAKE_BUILD_TYPE=Release \
-    && make -j "$(nproc)" \
+    && make -j $([ $(nproc) -le 8 ] && echo "$(nproc)" || echo "8") \
     && make install
 
 FROM ${BASE_IMAGE} AS runner

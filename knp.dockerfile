@@ -27,7 +27,7 @@ RUN git clone --depth 1 https://github.com/ku-nlp/knp.git \
     && rm -f knp-dict-latest-bin.zip \
     && cp -ars $(pwd)/dict-bin/* ./dict \
     && ./configure \
-    && make -j "$(nproc)" \
+    && make -j $([ $(nproc) -le 8 ] && echo "$(nproc)" || echo "8") \
     && make install
 
 FROM ${BASE_IMAGE} AS runner
