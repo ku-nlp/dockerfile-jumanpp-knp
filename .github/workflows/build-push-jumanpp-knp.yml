@@ -1,9 +1,6 @@
 name: build-push-jumanpp-knp
 
 on:
-  push:
-    branches:
-      - 'main'
   schedule:
     - cron: '0 20 * * 1'  # run at 5:00 every week (JST)
   workflow_dispatch:
