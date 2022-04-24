@@ -91,7 +91,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
 
   build-push-jumanpp-knp:
-    needs: build-builder
+    needs: build-push
     runs-on: self-hosted
     strategy:
       max-parallel: 4
