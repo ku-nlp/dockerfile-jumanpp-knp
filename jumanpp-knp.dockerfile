@@ -1,5 +1,5 @@
-ARG BASE_IMAGE_JUMANPP=ubuntu:latest
-ARG BASE_IMAGE_KNP=ubuntu:latest
+ARG BASE_IMAGE_JUMANPP=jumanpp:latest
+ARG BASE_IMAGE_KNP=knp:latest
 
 FROM ${BASE_IMAGE_JUMANPP} AS jumanpp
 FROM ${BASE_IMAGE_KNP} AS knp
