@@ -42,7 +42,7 @@ jobs:
           build-args: BASE_IMAGE=${{ matrix.base-image }}
           push: false
           load: true
-          tags: ${{ env.cache-version }}/${{ matrix.target }}:${{ matrix.tag }}
+          tags: ${{ env.registry-user }}/${{ matrix.target }}:${{ matrix.tag }}
           target: builder
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -86,7 +86,7 @@ jobs:
           build-args: BASE_IMAGE=${{ matrix.base-image }}
           push: true
           load: true
-          tags: ${{ env.cache-version }}/${{ matrix.target }}:${{ matrix.tag }}
+          tags: ${{ env.registry-user }}/${{ matrix.target }}:${{ matrix.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -130,6 +130,6 @@ jobs:
             BASE_IMAGE_KNP=${{ env.cache-version }}/knp:${{ matrix.tag }}
           push: true
           load: true
-          tags: ${{ env.cache-version }}/jumanpp-knp:${{ matrix.tag }}
+          tags: ${{ env.registry-user }}/jumanpp-knp:${{ matrix.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
