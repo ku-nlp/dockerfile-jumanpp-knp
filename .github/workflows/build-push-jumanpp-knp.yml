@@ -126,8 +126,8 @@ jobs:
           file: jumanpp-knp.dockerfile
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
-            BASE_IMAGE_JUMANPP=${{ env.cache-version }}/jumanpp:${{ matrix.tag }}
-            BASE_IMAGE_KNP=${{ env.cache-version }}/knp:${{ matrix.tag }}
+            BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
+            BASE_IMAGE_KNP=${{ env.registry-user }}/knp:${{ matrix.tag }}
           push: true
           load: true
           tags: ${{ env.registry-user }}/jumanpp-knp:${{ matrix.tag }}
