@@ -65,7 +65,7 @@ jobs:
         run: |
           tag_prefix="${{ env.registry-user }}/${{ matrix.target }}"
           tags="${tag_prefix}:${{ matrix.tag }}"
-          [[ ${{ env.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
+          [[ ${{ matrix.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
           echo "::set-output name=tags::${tags}"
 
       - name: Login to DockerHub
@@ -109,7 +109,7 @@ jobs:
         run: |
           tag_prefix="${{ env.registry-user }}/jumanpp-knp"
           tags="${tag_prefix}:${{ matrix.tag }}"
-          [[ ${{ env.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
+          [[ ${{ matrix.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
           echo "::set-output name=tags::${tags}"
 
       - name: Login to DockerHub
