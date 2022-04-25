@@ -64,10 +64,9 @@ jobs:
         id: generate-tags
         run: |
           tag_prefix="${{ env.registry-user }}/${{ matrix.target }}"
-          output_prefix='::set-output name=tags::'
-          [[ ${{ env.base-image }} == 'ubuntu:20.04' ]] \
-            && echo "${output_prefix}${tag_prefix}:${{ matrix.tag }},${tag_prefix}:ubuntu,${tag_prefix}:latest" \
-            || echo "${output_prefix}${tag_prefix}:${{ matrix.tag }}"
+          tags="${tag_prefix}:${{ matrix.tag }}"
+          [[ ${{ env.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
+          echo "::set-output name=tags::${tags}"
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -109,10 +108,9 @@ jobs:
         id: generate-tags
         run: |
           tag_prefix="${{ env.registry-user }}/jumanpp-knp"
-          output_prefix='::set-output name=tags::'
-          [[ ${{ env.base-image }} == 'ubuntu:20.04' ]] \
-            && echo "${output_prefix}${tag_prefix}:${{ matrix.tag }},${tag_prefix}:ubuntu,${tag_prefix}:latest" \
-            || echo "${output_prefix}${tag_prefix}:${{ matrix.tag }}"
+          tags="${tag_prefix}:${{ matrix.tag }}"
+          [[ ${{ env.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
+          echo "::set-output name=tags::${tags}"
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
