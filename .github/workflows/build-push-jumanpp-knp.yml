@@ -2,7 +2,7 @@ name: build-push-jumanpp-knp
 
 on:
   schedule:
-    - cron: '0 20 * * 1'  # run at 5:00 every week (JST)
+    - cron: '0 20 */16 * *'  # Runs at 20:00 UTC on the 1 and 17th of every month.
   workflow_dispatch:
 
 env:
