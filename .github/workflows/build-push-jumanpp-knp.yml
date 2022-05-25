@@ -1,5 +1,6 @@
 name: build-push-jumanpp-knp
 
+# DO NOT trigger on pull requests for security reasons
 on:
   schedule:
     - cron: '0 20 */16 * *'  # Runs at 20:00 UTC on the 1 and 17th of every month.
