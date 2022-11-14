@@ -5,9 +5,11 @@ FROM ${BASE_IMAGE_JUMANPP} AS jumanpp
 FROM ${BASE_IMAGE_KNP} AS knp
 
 # Configure Japanese locale
-RUN apt-get update \
-    && apt-get install -y locales \
-    && locale-gen ja_JP.UTF-8
+RUN apt-get update -q && apt-get install -yq \
+    locales \
+    && locale-gen ja_JP.UTF-8 \
+    && apt-get clean \
+    && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 ENV LANG="ja_JP.UTF-8" \
     LANGUAGE="en_US" \
     LC_ALL="ja_JP.UTF-8"
