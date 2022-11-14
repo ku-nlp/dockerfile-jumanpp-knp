@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=ubuntu:latest
 FROM ${BASE_IMAGE} AS builder
 WORKDIR /app
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 ARG JPP_VERSION=2.0.0-rc3
 
 RUN apt-get -q update && apt-get install -yq --no-install-recommends \

@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=ubuntu:latest
 FROM ${BASE_IMAGE} AS builder
 WORKDIR /app
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     build-essential \
