@@ -10,40 +10,7 @@ env:
   registry-user: kunlp
 
 jobs:
-  build-builder:
-    runs-on: self-hosted
-    strategy:
-      max-parallel: 4
-      fail-fast: false
-      matrix:
-        base-image: ["ubuntu:18.04", "ubuntu:20.04"]  # Juman++ cannot be built on ubuntu:22.04
-        target: ["jumanpp", "knp"]
-        include:
-          - base-image: "ubuntu:18.04"
-            tag: "ubuntu18.04-builder"
-          - base-image: "ubuntu:20.04"
-            tag: "ubuntu20.04-builder"
-    steps:
-      - uses: actions/checkout@v3
-      - uses: docker/setup-qemu-action@v2
-      - uses: docker/setup-buildx-action@v2
-
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ${{ matrix.target }}.dockerfile
-          platforms: linux/amd64  # or linux/amd64,linux/arm64
-          build-args: BASE_IMAGE=${{ matrix.base-image }}
-          push: false
-          load: true
-          tags: ${{ env.registry-user }}/${{ matrix.target }}:${{ matrix.tag }}
-          target: builder
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
-
   build-push:
-    needs: build-builder
     runs-on: self-hosted
     strategy:
       max-parallel: 4
