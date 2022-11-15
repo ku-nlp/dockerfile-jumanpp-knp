@@ -4,7 +4,7 @@ ARG BASE_IMAGE_KWJA=kwja:latest
 
 FROM ${BASE_IMAGE_JUMANPP} AS jumanpp
 FROM ${BASE_IMAGE_KNP} AS knp
-FROM ${BASE_IMAGE_KWJA} AS kwja
+FROM ${BASE_IMAGE_KWJA}
 
 # Configure Japanese locale
 RUN apt-get update -q && apt-get install -yq \

@@ -1,6 +1,5 @@
 ARG BASE_IMAGE=python:3.10-slim-bullseye
-# FROM python:3.10-slim-bullseye
-FROM ${BASE_IMAGE} AS builder
+FROM ${BASE_IMAGE}
 ARG KWJA_VERSION
 WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive

@@ -2,7 +2,7 @@ ARG BASE_IMAGE_JUMANPP=jumanpp:latest
 ARG BASE_IMAGE_KNP=knp:latest
 
 FROM ${BASE_IMAGE_JUMANPP} AS jumanpp
-FROM ${BASE_IMAGE_KNP} AS knp
+FROM ${BASE_IMAGE_KNP}
 
 # Configure Japanese locale
 RUN apt-get update -q && apt-get install -yq \
