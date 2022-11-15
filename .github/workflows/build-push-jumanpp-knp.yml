@@ -40,7 +40,7 @@ jobs:
               tags+=",${tag_prefix}:latest"
             fi
           fi
-          echo "tags={tags}" >> $GITHUB_OUTPUT
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
@@ -111,7 +111,7 @@ jobs:
           tag_prefix="${{ env.registry-user }}/jumanpp-knp"
           tags="${tag_prefix}:${{ matrix.tag }}"
           [[ ${{ matrix.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
-          echo "tags={tags}" >> $GITHUB_OUTPUT
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
