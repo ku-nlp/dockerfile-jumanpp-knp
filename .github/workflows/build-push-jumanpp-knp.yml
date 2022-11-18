@@ -67,6 +67,13 @@ jobs:
       - uses: docker/setup-qemu-action@v2
       - uses: docker/setup-buildx-action@v2
 
+      - name: Generate tags
+        id: generate-tags
+        run: |
+          tag_prefix="${{ env.registry-user }}/kwja"
+          tags="${tag_prefix}:ubuntu20.04,${tag_prefix}:ubuntu"
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
+
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
@@ -83,7 +90,7 @@ jobs:
             BASE_IMAGE=ubuntu:20.04
             KWJA_VERSION=1.2.2
           push: true
-          tags: ubuntu20.04,ubuntu,latest
+          tags: ${{ steps.generate-tags.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
