@@ -16,13 +16,13 @@ jobs:
       max-parallel: 4
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:20.04", "debian:bullseye"]  # Juman++ cannot be build on ubuntu:22.04
+        base-image: ["ubuntu:18.04", "ubuntu:20.04"]  # Juman++ cannot be build on ubuntu:22.04
         target: ["jumanpp", "knp"]
         include:
+          - base-image: "ubuntu:18.04"
+            tag: "ubuntu18.04"
           - base-image: "ubuntu:20.04"
             tag: "ubuntu20.04"
-          - base-image: "debian:bullseye"
-            tag: "bullseye"
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
@@ -80,10 +80,10 @@ jobs:
           file: kwja.dockerfile
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
-            BASE_IMAGE=python:3.10-slim-bullseye
+            BASE_IMAGE=ubuntu:20.04
             KWJA_VERSION=1.2.2
           push: true
-          tags: bullseye,debian,latest
+          tags: ubuntu20.04,ubuntu,latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -94,12 +94,10 @@ jobs:
       max-parallel: 4
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:20.04", "debian:bullseye"]  # Juman++ cannot be build on ubuntu:22.04
+        base-image: ["ubuntu:20.04"]  # Juman++ cannot be build on ubuntu:22.04
         include:
           - base-image: "ubuntu:20.04"
             tag: "ubuntu20.04"
-          - base-image: "debian:bullseye"
-            tag: "bullseye"
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
@@ -154,10 +152,10 @@ jobs:
           file: jumanpp-knp-kwja.dockerfile
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
-            BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:bullseye
-            BASE_IMAGE_KNP=${{ env.registry-user }}/knp:bullseye
-            BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:bullseye
+            BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:ubuntu20.04
+            BASE_IMAGE_KNP=${{ env.registry-user }}/knp:ubuntu20.04
+            BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:ubuntu20.04
           push: true
-          tags: bullseye,debian,latest
+          tags: ubuntu20.04,ubuntu,latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
