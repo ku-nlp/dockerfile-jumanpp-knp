@@ -1,4 +1,4 @@
-name: build-push-jumanpp-knp
+name: build-push-jumanpp-knp-kwja
 
 # DO NOT trigger on pull requests for security reasons
 on:
@@ -67,27 +67,54 @@ jobs:
       - uses: docker/setup-qemu-action@v2
       - uses: docker/setup-buildx-action@v2
 
-      - name: Generate tags
-        id: generate-tags
+      - id: generate-tags
         run: |
           tag_prefix="${{ env.registry-user }}/kwja"
           tags="${tag_prefix}:ubuntu20.04,${tag_prefix}:ubuntu"
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
+      - uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
+      - uses: docker/build-push-action@v3
         with:
           context: .
           file: kwja.dockerfile
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
             BASE_IMAGE=ubuntu:20.04
+            KWJA_VERSION=1.2.2
+          push: true
+          tags: ${{ steps.generate-tags.outputs.tags }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
+  build-push-kwja.debian:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-qemu-action@v2
+      - uses: docker/setup-buildx-action@v2
+
+      - id: generate-tags
+        run: |
+          tag_prefix="${{ env.registry-user }}/kwja"
+          tags="${tag_prefix}:bullseye,${tag_prefix}:latest"
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
+
+      - uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: kwja.dockerfile
+          platforms: linux/amd64  # or linux/amd64,linux/arm64
+          build-args: |
             KWJA_VERSION=1.2.2
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
@@ -110,22 +137,19 @@ jobs:
       - uses: docker/setup-qemu-action@v2
       - uses: docker/setup-buildx-action@v2
 
-      - name: Generate tags
-        id: generate-tags
+      - id: generate-tags
         run: |
           tag_prefix="${{ env.registry-user }}/jumanpp-knp"
           tags="${tag_prefix}:${{ matrix.tag }}"
           [[ ${{ matrix.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
+      - uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
+      - uses: docker/build-push-action@v3
         with:
           context: .
           file: jumanpp-knp.dockerfile
@@ -146,21 +170,18 @@ jobs:
       - uses: docker/setup-qemu-action@v2
       - uses: docker/setup-buildx-action@v2
 
-      - name: Generate tags
-        id: generate-tags
+      - id: generate-tags
         run: |
           tag_prefix="${{ env.registry-user }}/jumanpp-knp-kwja"
           tags="${tag_prefix}:ubuntu20.04,${tag_prefix}:ubuntu,${tag_prefix}:latest"
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
+      - uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v3
+      - uses: docker/build-push-action@v3
         with:
           context: .
           file: jumanpp-knp-kwja.dockerfile
