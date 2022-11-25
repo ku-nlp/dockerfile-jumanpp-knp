@@ -91,7 +91,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
-  build-push-kwja.debian:
+  build-push-kwja_debian:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
