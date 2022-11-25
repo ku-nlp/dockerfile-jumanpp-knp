@@ -1,6 +1,6 @@
 # Dockerfile for Juman++, KNP, and KWJA
 
-[![build-push-jumanpp-knp](https://github.com/ku-nlp/dockerfile-jumanpp-knp/actions/workflows/build-push-jumanpp-knp.yml/badge.svg)](https://github.com/ku-nlp/dockerfile-jumanpp-knp/actions/workflows/build-push-jumanpp-knp.yml)
+[![build-push-jumanpp-knp-kwja](https://github.com/ku-nlp/dockerfile-jumanpp-knp/actions/workflows/build-push-jumanpp-knp-kwja.yml/badge.svg)](https://github.com/ku-nlp/dockerfile-jumanpp-knp/actions/workflows/build-push-jumanpp-knp-kwja.yml)
 
 This project automatically builds and pushes Docker images of [Juman++](https://github.com/ku-nlp/jumanpp), [KNP](https://github.com/ku-nlp/knp), and [KWJA](https://github.com/ku-nlp/kwja).
 
