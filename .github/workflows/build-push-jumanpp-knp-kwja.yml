@@ -85,7 +85,7 @@ jobs:
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
             BASE_IMAGE=ubuntu:20.04
-            KWJA_VERSION=1.4.1
+            KWJA_VERSION=2.1.0
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -115,7 +115,7 @@ jobs:
           file: kwja.dockerfile
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
-            KWJA_VERSION=1.4.1
+            KWJA_VERSION=2.1.0
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
