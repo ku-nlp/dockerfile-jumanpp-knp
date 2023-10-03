@@ -10,7 +10,4 @@ RUN apt-get update -q && apt-get install -yq \
 RUN pip3 install --upgrade pip --no-cache-dir \
     && pip3 install --no-cache-dir kwja==${KWJA_VERSION}
 
-# pre-download models
-RUN kwja --text 'こんにちは'
-
-CMD /bin/bash
+CMD ["/bin/bash"]

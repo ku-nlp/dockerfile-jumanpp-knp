@@ -66,4 +66,4 @@ RUN pip3 install --upgrade pip --no-cache-dir \
 # pre-download models
 # RUN kwja --text 'こんにちは'
 
-CMD /bin/bash
+CMD ["/bin/bash"]
