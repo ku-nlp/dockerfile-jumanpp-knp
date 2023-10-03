@@ -40,4 +40,4 @@ RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
 
 COPY --from=builder /usr/local /usr/local
 
-CMD /bin/bash
+CMD ["/bin/bash"]
