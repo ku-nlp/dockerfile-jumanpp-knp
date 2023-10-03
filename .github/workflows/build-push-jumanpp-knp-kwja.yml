@@ -16,13 +16,15 @@ jobs:
       max-parallel: 4
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:18.04", "ubuntu:20.04"]  # Juman++ cannot be build on ubuntu:22.04
+        base-image: ["ubuntu:18.04", "ubuntu:20.04", "ubuntu:22.04"]
         target: ["jumanpp", "knp"]
         include:
           - base-image: "ubuntu:18.04"
             tag: "ubuntu18.04"
           - base-image: "ubuntu:20.04"
             tag: "ubuntu20.04"
+          - base-image: "ubuntu:22.04"
+            tag: "ubuntu22.04"
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
@@ -34,7 +36,7 @@ jobs:
         run: |
           tag_prefix="${{ env.registry-user }}/${{ matrix.target }}"
           tags="${tag_prefix}:${{ matrix.tag }}"
-          if [[ ${{ matrix.base-image }} == 'ubuntu:20.04' ]]; then
+          if [[ ${{ matrix.base-image }} == 'ubuntu:22.04' ]]; then
             tags+=",${tag_prefix}:ubuntu"
             if [[ ${{ matrix.target }} != 'jumanpp' ]]; then
               tags+=",${tag_prefix}:latest"
