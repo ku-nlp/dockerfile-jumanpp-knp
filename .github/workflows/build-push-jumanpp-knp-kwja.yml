@@ -8,6 +8,7 @@ on:
 
 env:
   registry-user: kunlp
+  kwja-version: 2.1.2
 
 jobs:
   build-push:
@@ -16,15 +17,16 @@ jobs:
       max-parallel: 4
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:18.04", "ubuntu:20.04", "ubuntu:22.04"]
+        base-image: ["ubuntu:20.04", "ubuntu:22.04"]
         target: ["jumanpp", "knp"]
         include:
-          - base-image: "ubuntu:18.04"
-            tag: "ubuntu18.04"
           - base-image: "ubuntu:20.04"
             tag: "ubuntu20.04"
           - base-image: "ubuntu:22.04"
             tag: "ubuntu22.04"
+        exclude:
+          - base-image: "ubuntu:22.04"
+            target: "knp"
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
@@ -36,10 +38,14 @@ jobs:
         run: |
           tag_prefix="${{ env.registry-user }}/${{ matrix.target }}"
           tags="${tag_prefix}:${{ matrix.tag }}"
-          if [[ ${{ matrix.base-image }} == 'ubuntu:22.04' ]]; then
-            tags+=",${tag_prefix}:ubuntu"
-            if [[ ${{ matrix.target }} != 'jumanpp' ]]; then
-              tags+=",${tag_prefix}:latest"
+          if [[ ${{ matrix.target }} == 'jumanpp' ]]; then
+            if [[ ${{ matrix.base-image }} == 'ubuntu:22.04' ]]; then
+              tags+=",${tag_prefix}:ubuntu"
+            fi
+          fi
+          if [[ ${{ matrix.target }} == 'knp' ]]; then
+            if [[ ${{ matrix.base-image }} == 'ubuntu:20.04' ]]; then
+              tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
             fi
           fi
           echo "tags=${tags}" >> $GITHUB_OUTPUT
@@ -64,6 +70,16 @@ jobs:
 
   build-push-kwja:
     runs-on: self-hosted
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        base-image: ["ubuntu:20.04", "ubuntu:22.04"]
+        include:
+          - base-image: "ubuntu:20.04"
+            tag: "ubuntu20.04"
+          - base-image: "ubuntu:22.04"
+            tag: "ubuntu22.04"
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
@@ -72,7 +88,10 @@ jobs:
       - id: generate-tags
         run: |
           tag_prefix="${{ env.registry-user }}/kwja"
-          tags="${tag_prefix}:ubuntu20.04,${tag_prefix}:ubuntu"
+          tags="${tag_prefix}:${{ matrix.tag }}"
+          if [[ ${{ matrix.base-image }} == 'ubuntu:22.04' ]]; then
+            tags+=",${tag_prefix}:ubuntu"
+          fi
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - uses: docker/login-action@v3
@@ -86,8 +105,8 @@ jobs:
           file: kwja.ubuntu.dockerfile
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
-            BASE_IMAGE=ubuntu:20.04
-            KWJA_VERSION=2.1.2
+            BASE_IMAGE=${{ matrix.base-image }}
+            KWJA_VERSION=${{ env.kwja-version }}
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -117,7 +136,8 @@ jobs:
           file: kwja.debian.dockerfile
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
-            KWJA_VERSION=2.1.2
+            BASE_IMAGE=python:3.11-slim-bullseye
+            KWJA_VERSION=${{ env.kwja-version }}
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -127,10 +147,10 @@ jobs:
     needs: build-push
     runs-on: self-hosted
     strategy:
-      max-parallel: 4
+      max-parallel: 2
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:20.04"]  # Juman++ cannot be build on ubuntu:22.04
+        base-image: ["ubuntu:20.04"]
         include:
           - base-image: "ubuntu:20.04"
             tag: "ubuntu20.04"
@@ -167,6 +187,14 @@ jobs:
   build-push-jumanpp-knp-kwja:
     needs: [build-push, build-push-kwja]
     runs-on: self-hosted
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        base-image: ["ubuntu:20.04"]
+        include:
+          - base-image: "ubuntu:20.04"
+            tag: "ubuntu20.04"
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
@@ -175,7 +203,8 @@ jobs:
       - id: generate-tags
         run: |
           tag_prefix="${{ env.registry-user }}/jumanpp-knp-kwja"
-          tags="${tag_prefix}:ubuntu20.04,${tag_prefix}:ubuntu,${tag_prefix}:latest"
+          tags="${tag_prefix}:${{ matrix.tag }}"
+          [[ ${{ matrix.base-image }} == 'ubuntu:20.04' ]] && tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - uses: docker/login-action@v3
@@ -189,9 +218,9 @@ jobs:
           file: jumanpp-knp-kwja.dockerfile
           platforms: linux/amd64  # or linux/amd64,linux/arm64
           build-args: |
-            BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:ubuntu20.04
-            BASE_IMAGE_KNP=${{ env.registry-user }}/knp:ubuntu20.04
-            BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:ubuntu20.04
+            BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
+            BASE_IMAGE_KNP=${{ env.registry-user }}/knp:${{ matrix.tag }}
+            BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:${{ matrix.tag }}
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
