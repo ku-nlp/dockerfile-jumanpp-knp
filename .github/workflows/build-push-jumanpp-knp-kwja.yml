@@ -61,7 +61,7 @@ jobs:
         with:
           context: .
           file: ${{ matrix.target }}.dockerfile
-          platforms: linux/amd64  # or linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           build-args: BASE_IMAGE=${{ matrix.base-image }}
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
@@ -103,7 +103,7 @@ jobs:
         with:
           context: .
           file: kwja.ubuntu.dockerfile
-          platforms: linux/amd64  # or linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.base-image }}
             KWJA_VERSION=${{ env.kwja-version }}
@@ -134,7 +134,7 @@ jobs:
         with:
           context: .
           file: kwja.debian.dockerfile
-          platforms: linux/amd64  # or linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64
           build-args: |
             BASE_IMAGE=python:3.11-slim-bullseye
             KWJA_VERSION=${{ env.kwja-version }}
