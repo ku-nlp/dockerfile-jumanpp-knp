@@ -24,9 +24,6 @@ jobs:
             tag: "ubuntu20.04"
           - base-image: "ubuntu:22.04"
             tag: "ubuntu22.04"
-        exclude:
-          - base-image: "ubuntu:22.04"
-            target: "knp"
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
