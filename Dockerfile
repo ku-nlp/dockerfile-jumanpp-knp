@@ -4,7 +4,9 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 ARG JPP_VERSION=2.0.0-rc4
 
-RUN apt-get -q update && apt-get install -yq --no-install-recommends \
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     build-essential \
     gcc \
     g++ \
@@ -37,7 +39,7 @@ RUN git clone --depth 1 https://github.com/ku-nlp/knp.git \
     && ./autogen.sh \
     && wget -q http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dict-latest-bin.zip \
     && unzip knp-dict-latest-bin.zip \
-    && cp -ars $(pwd)/dict-bin/* ./dict \
+    && cp -ars "$(pwd)"/dict-bin/* ./dict \
     && ./configure \
     && make -j "$(nproc)" \
     && make install
@@ -45,8 +47,9 @@ RUN git clone --depth 1 https://github.com/ku-nlp/knp.git \
 FROM ${BASE_IMAGE} AS runner
 
 # Configure Japanese locale
-RUN apt-get update \
-    && apt-get install -y locales \
+RUN apt-get -q update && apt-get install -yq --no-install-recommends \
+    locales \
+    && rm -rf /var/lib/apt/lists/* \
     && locale-gen ja_JP.UTF-8
 ENV LANG="ja_JP.UTF-8" \
     LANGUAGE="en_US" \

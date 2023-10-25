@@ -25,19 +25,18 @@ RUN git clone --depth 1 https://github.com/ku-nlp/knp.git \
     && wget -q http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dict-latest-bin.zip \
     && unzip knp-dict-latest-bin.zip \
     && rm -f knp-dict-latest-bin.zip \
-    && cp -ars $(pwd)/dict-bin/* ./dict \
+    && cp -ars "$(pwd)"/dict-bin/* ./dict \
     && ./configure \
-    && make -j $([ $(nproc) -le 8 ] && echo "$(nproc)" || echo "8") \
+    && make -j "$([ "$(nproc)" -le 8 ] && nproc || echo "8")" \
     && make install
 
 FROM ${BASE_IMAGE} AS runner
 
 # Configure Japanese locale
-RUN apt-get update -q && apt-get install -yq \
+RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     locales \
-    && locale-gen ja_JP.UTF-8 \
-    && apt-get clean \
-    && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && locale-gen ja_JP.UTF-8
 ENV LANG="ja_JP.UTF-8" \
     LANGUAGE="en_US" \
     LC_ALL="ja_JP.UTF-8"

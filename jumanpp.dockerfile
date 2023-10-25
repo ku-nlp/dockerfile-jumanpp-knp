@@ -4,7 +4,9 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 ARG JPP_VERSION=2.0.0-rc4
 
-RUN apt-get -q update && apt-get install -yq --no-install-recommends \
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     build-essential \
     gcc \
     g++ \
@@ -16,23 +18,22 @@ RUN apt-get -q update && apt-get install -yq --no-install-recommends \
     ca-certificates
 
 # Build and install Juman++
-RUN wget https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/jumanpp-${JPP_VERSION}.tar.xz -qO - \
+RUN wget "https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/jumanpp-${JPP_VERSION}.tar.xz" -qO - \
     | tar Jxf - \
-    && cd jumanpp-${JPP_VERSION} \
+    && cd "jumanpp-${JPP_VERSION}" \
     && mkdir bld \
     && cd bld \
     && cmake .. -DCMAKE_BUILD_TYPE=Release \
-    && make -j $([ $(nproc) -le 8 ] && echo "$(nproc)" || echo "8") \
+    && make -j "$([ "$(nproc)" -le 8 ] && nproc || echo "8")" \
     && make install
 
 FROM ${BASE_IMAGE} AS runner
 
 # Configure Japanese locale
-RUN apt-get update -q && apt-get install -yq \
+RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     locales \
-    && locale-gen ja_JP.UTF-8 \
-    && apt-get clean \
-    && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && locale-gen ja_JP.UTF-8
 ENV LANG="ja_JP.UTF-8" \
     LANGUAGE="en_US" \
     LC_ALL="ja_JP.UTF-8"
