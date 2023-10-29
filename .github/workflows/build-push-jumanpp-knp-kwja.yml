@@ -8,7 +8,7 @@ on:
 
 env:
   registry-user: kunlp
-  kwja-version: 2.1.2
+  kwja-version: 2.2.0
 
 jobs:
   build-push:
