@@ -1,6 +1,14 @@
 name: "Setup Docker"
 description: "Setup Docker environment for docker/build-push-action and login with DockerHub"
 
+inputs:
+  registry_username:
+    description: “Username for image registry”
+    required: true
+  registry_password:
+    description: “Password for image registry”
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -10,5 +18,5 @@ runs:
 
     - uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: ${{inputs.registry_username}}
+        password: ${{inputs.registry_password}}
