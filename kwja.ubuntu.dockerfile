@@ -18,8 +18,9 @@ RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     wget \
     build-essential \
     ca-certificates \
-    python3-venv \
+    python3-dev \
     python3-pip \
+    python3-venv \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip --no-cache-dir \
