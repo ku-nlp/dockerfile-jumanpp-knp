@@ -38,12 +38,12 @@ jobs:
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-docker
+      - uses: ./.github/actions/build-push-image
         with:
-          registry_username: ${{ secrets.DOCKERHUB_USERNAME }}
-          registry_password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: jumanpp.dockerfile
-          build_args: |
+          build-args: |
             BASE_IMAGE=${{ matrix.base-image }}
           tags: ${{ steps.generate-tags.outputs.tags }}
 
@@ -73,12 +73,12 @@ jobs:
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-docker
+      - uses: ./.github/actions/build-push-image
         with:
-          registry_username: ${{ secrets.DOCKERHUB_USERNAME }}
-          registry_password: ${{ secrets.DOCKERHUB_TOKEN }}
-          dockerfile: ${{ matrix.target }}.dockerfile
-          build_args: |
+          registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
+          dockerfile: kwja.dockerfile
+          build-args: |
             BASE_IMAGE=${{ matrix.base-image }}
             KWJA_VERSION=${{ env.kwja-version }}
           tags: ${{ steps.generate-tags.outputs.tags }}
@@ -107,12 +107,12 @@ jobs:
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-docker
+      - uses: ./.github/actions/build-push-image
         with:
-          registry_username: ${{ secrets.DOCKERHUB_USERNAME }}
-          registry_password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: jumanpp-knp.dockerfile
-          build_args: |
+          build-args: |
             BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
             BASE_IMAGE=${{ matrix.base-image }}
           tags: ${{ steps.generate-tags.outputs.tags }}
@@ -141,12 +141,12 @@ jobs:
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-docker
+      - uses: ./.github/actions/build-push-image
         with:
-          registry_username: ${{ secrets.DOCKERHUB_USERNAME }}
-          registry_password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: jumanpp-kwja.dockerfile
-          build_args: |
+          build-args: |
             BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
             BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:${{ matrix.tag }}
           tags: ${{ steps.generate-tags.outputs.tags }}
@@ -175,12 +175,12 @@ jobs:
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-docker
+      - uses: ./.github/actions/build-push-image
         with:
-          registry_username: ${{ secrets.DOCKERHUB_USERNAME }}
-          registry_password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: jumanpp-knp-kwja.dockerfile
-          build_args: |
+          build-args: |
             BASE_IMAGE_JUMANPP_KNP=${{ env.registry-user }}/jumanpp-knp:${{ matrix.tag }}
             BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:${{ matrix.tag }}
           tags: ${{ steps.generate-tags.outputs.tags }}

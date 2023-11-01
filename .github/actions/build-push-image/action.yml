@@ -1,34 +1,22 @@
-name: "Setup Docker"
-description: "Setup Docker environment for docker/build-push-action and login with DockerHub"
+name: "Build and Push Docker Image"
+description: "Build and push Docker image to registry"
 
 inputs:
-  registry_username:
+  registry-username:
     description: "Username for image registry"
     required: true
-  registry_password:
+  registry-password:
     description: "Password for image registry"
     required: true
   dockerfile:
     description: "Dockerfile to build"
     required: true
-  build_args:
+  build-args:
     description: "Build args for Dockerfile"
     required: true
   tags:
     description: "Tags for Docker image"
     required: true
-  # base_image:
-  #   description: "Base image for build"
-  #   required: false
-  #   default: ""
-  # base_image_jumanpp:
-  #   description: "Juman++ base image for build"
-  #   required: false
-  #   default: ""
-  # kwja_version:
-  #   description: "Version of KWJA"
-  #   required: false
-  #   default: ""
 
 runs:
   using: "composite"
@@ -39,8 +27,8 @@ runs:
 
     - uses: docker/login-action@v3
       with:
-        username: ${{inputs.registry_username}}
-        password: ${{inputs.registry_password}}
+        username: ${{inputs.registry-username}}
+        password: ${{inputs.registry-password}}
 
     - name: Build and push
       uses: docker/build-push-action@v5
