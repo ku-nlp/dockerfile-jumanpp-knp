@@ -14,16 +14,18 @@ jobs:
   build-push:
     runs-on: self-hosted
     strategy:
-      max-parallel: 6
+      max-parallel: 4
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:20.04", "ubuntu:22.04"]
-        target: ["jumanpp", "knp", "kwja"]
+        base-image: ["ubuntu:20.04", "ubuntu:22.04", "debian:bullseye"]
+        target: ["jumanpp", "kwja"]
         include:
           - base-image: "ubuntu:20.04"
             tag: "ubuntu20.04"
           - base-image: "ubuntu:22.04"
             tag: "ubuntu22.04"
+          - base-image: "debian:bullseye"
+            tag: "debian11"
     steps:
       - name: Generate tags
         id: generate-tags
@@ -52,33 +54,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.base-image }}
-            KWJA_VERSION=${{ env.kwja-version }}
-          push: true
-          tags: ${{ steps.generate-tags.outputs.tags }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
-
-  build-push-kwja_debian:
-    runs-on: self-hosted
-    steps:
-      - id: generate-tags
-        run: |
-          tag_prefix="${{ env.registry-user }}/kwja"
-          tags="${tag_prefix}:bullseye,${tag_prefix}:latest"
-          echo "tags=${tags}" >> $GITHUB_OUTPUT
-
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-docker
-        with:
-          registry_username: ${{ secrets.DOCKERHUB_USERNAME }}
-          registry_password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: kwja.debian.dockerfile
-          platforms: linux/amd64,linux/arm64
-          build-args: |
-            BASE_IMAGE=python:3.11-slim-bullseye
             KWJA_VERSION=${{ env.kwja-version }}
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
@@ -120,14 +95,55 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
-            BASE_IMAGE_KNP=${{ env.registry-user }}/knp:${{ matrix.tag }}
+            BASE_IMAGE=${{ matrix.base-image }}
+          push: true
+          tags: ${{ steps.generate-tags.outputs.tags }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+
+  build-push-jumanpp-kwja:
+    needs: build-push
+    runs-on: self-hosted
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        base-image: ["ubuntu:20.04", "ubuntu:22.04"]
+        include:
+          - base-image: "ubuntu:20.04"
+            tag: "ubuntu20.04"
+          - base-image: "ubuntu:22.04"
+            tag: "ubuntu22.04"
+    steps:
+      - id: generate-tags
+        run: |
+          tag_prefix="${{ env.registry-user }}/jumanpp-kwja"
+          tags="${tag_prefix}:${{ matrix.tag }}"
+          if [[ ${{ matrix.base-image }} == 'ubuntu:22.04' ]]; then
+            tags+=",${tag_prefix}:ubuntu,${tag_prefix}:latest"
+          fi
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-docker
+        with:
+          registry_username: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry_password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: jumanpp-kwja.dockerfile
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
+            BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:${{ matrix.tag }}
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
   build-push-jumanpp-knp-kwja:
-    needs: [build-push]
+    needs: [build-push, build-push-jumanpp-knp]
     runs-on: self-hosted
     strategy:
       max-parallel: 2
@@ -160,8 +176,7 @@ jobs:
           file: jumanpp-knp-kwja.dockerfile
           platforms: linux/amd64,linux/arm64
           build-args: |
-            BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
-            BASE_IMAGE_KNP=${{ env.registry-user }}/knp:${{ matrix.tag }}
+            BASE_IMAGE_JUMANPP_KNP=${{ env.registry-user }}/jumanpp-knp:${{ matrix.tag }}
             BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:${{ matrix.tag }}
           push: true
           tags: ${{ steps.generate-tags.outputs.tags }}

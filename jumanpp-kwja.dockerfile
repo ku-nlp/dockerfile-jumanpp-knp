@@ -1,7 +1,7 @@
-ARG BASE_IMAGE_JUMANPP_KNP=jumanpp-knp:latest
+ARG BASE_IMAGE_JUMANPP=jumanpp:latest
 ARG BASE_IMAGE_KWJA=kwja:latest
 
-FROM ${BASE_IMAGE_JUMANPP_KNP} AS jumanpp-knp
+FROM ${BASE_IMAGE_JUMANPP} AS jumanpp
 FROM ${BASE_IMAGE_KWJA}
 
 # Configure Japanese locale
@@ -14,6 +14,6 @@ ENV LANG="ja_JP.UTF-8" \
     LC_ALL="ja_JP.UTF-8"
 RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
 
-COPY --from=jumanpp-knp /usr/local /usr/local
+COPY --from=jumanpp /usr/local /usr/local
 
 CMD ["/bin/bash"]
