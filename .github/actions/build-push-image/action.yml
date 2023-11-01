@@ -36,7 +36,7 @@ runs:
         context: .
         file: ${{ inputs.dockerfile }}
         platforms: linux/amd64,linux/arm64
-        build-args: ${{ inputs.build_args }}
+        build-args: ${{ inputs.build-args }}
         push: true
         tags: ${{ inputs.tags }}
         cache-from: type=local,src=/tmp/.buildx-cache
