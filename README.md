@@ -4,17 +4,17 @@
 
 This project automatically builds and pushes Docker images of [Juman++](https://github.com/ku-nlp/jumanpp), [KNP](https://github.com/ku-nlp/knp), and [KWJA](https://github.com/ku-nlp/kwja).
 
-|       | Juman++                                                                      | KNP                                                                      | KWJA                                                                      | Juman++/KNP                                                                      | Juman++/KNP/KWJA                                                                      |
-|-------|------------------------------------------------------------------------------|--------------------------------------------------------------------------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
-| Pulls | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/jumanpp)           | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/knp)           | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/kwja)           | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/jumanpp-knp)           | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/jumanpp-knp-kwja)           |
-| Size  | ![Image Size](https://img.shields.io/docker/image-size/kunlp/jumanpp/latest) | ![Image Size](https://img.shields.io/docker/image-size/kunlp/knp/latest) | ![Image Size](https://img.shields.io/docker/image-size/kunlp/kwja/latest) | ![Image Size](https://img.shields.io/docker/image-size/kunlp/jumanpp-knp/latest) | ![Image Size](https://img.shields.io/docker/image-size/kunlp/jumanpp-knp-kwja/latest) |
+|       | Juman++                                                                      | KWJA                                                                      | Juman++/KNP                                                                      | Juman++/KWJA                                                                      | Juman++/KNP/KWJA                                                                      |
+|-------|------------------------------------------------------------------------------|---------------------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| Pulls | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/jumanpp)           | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/kwja)           | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/jumanpp-knp)           | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/jumanpp-kwja)           | ![Docker Pulls](https://img.shields.io/docker/pulls/kunlp/jumanpp-knp-kwja)           |
+| Size  | ![Image Size](https://img.shields.io/docker/image-size/kunlp/jumanpp/latest) | ![Image Size](https://img.shields.io/docker/image-size/kunlp/kwja/latest) | ![Image Size](https://img.shields.io/docker/image-size/kunlp/jumanpp-knp/latest) | ![Image Size](https://img.shields.io/docker/image-size/kunlp/jumanpp-kwja/latest) | ![Image Size](https://img.shields.io/docker/image-size/kunlp/jumanpp-knp-kwja/latest) |
 
 ## DockerHub Links
 
 - [kunlp/jumanpp](https://hub.docker.com/repository/docker/kunlp/jumanpp)
-- [kunlp/knp](https://hub.docker.com/repository/docker/kunlp/knp)
 - [kunlp/kwja](https://hub.docker.com/repository/docker/kunlp/kwja)
 - [kunlp/jumanpp-knp](https://hub.docker.com/repository/docker/kunlp/jumanpp-knp)
+- [kunlp/jumanpp-kwja](https://hub.docker.com/repository/docker/kunlp/jumanpp-kwja)
 - [kunlp/jumanpp-knp-kwja](https://hub.docker.com/repository/docker/kunlp/jumanpp-knp-kwja)
 
 ## Authors/Contact
