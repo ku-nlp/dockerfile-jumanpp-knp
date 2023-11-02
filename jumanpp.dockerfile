@@ -20,9 +20,8 @@ RUN apt-get update -q && apt-get install -yq --no-install-recommends \
 # Build and install Juman++
 RUN wget "https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/jumanpp-${JPP_VERSION}.tar.xz" -qO - \
     | tar Jxf - \
-    && cd "jumanpp-${JPP_VERSION}" \
-    && mkdir bld \
-    && cd bld \
+    && mkdir "jumanpp-${JPP_VERSION}/bld" \
+    && cd "jumanpp-${JPP_VERSION}/bld" \
     && cmake .. -DCMAKE_BUILD_TYPE=Release \
     && make -j "$([ "$(nproc)" -le 8 ] && nproc || echo "8")" \
     && make install

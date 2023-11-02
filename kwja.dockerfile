@@ -24,7 +24,7 @@ RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip --no-cache-dir \
-    && pip3 install --no-cache-dir kwja==${KWJA_VERSION}
+    && pip3 install --no-cache-dir kwja=="${KWJA_VERSION}"
 
 # pre-download models
 # RUN kwja --text 'こんにちは'

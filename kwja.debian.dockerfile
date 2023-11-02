@@ -8,6 +8,6 @@ RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip --no-cache-dir \
-    && pip3 install --no-cache-dir kwja==${KWJA_VERSION}
+    && pip3 install --no-cache-dir kwja=="${KWJA_VERSION}"
 
 CMD ["/bin/bash"]
