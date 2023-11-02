@@ -1,8 +1,8 @@
 ARG BASE_IMAGE=ubuntu:latest
+ARG JPP_VERSION=2.0.0-rc4
 FROM ${BASE_IMAGE} AS builder
 WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
-ARG JPP_VERSION=2.0.0-rc4
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 

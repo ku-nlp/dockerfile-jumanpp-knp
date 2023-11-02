@@ -1,5 +1,5 @@
-FROM python:3.11-slim-bullseye
 ARG KWJA_VERSION
+FROM python:3.11-slim-bullseye
 WORKDIR /app
 ENV DEBIAN_FRONTEND noninteractive
 
