@@ -5,26 +5,27 @@ FROM ${BASE_IMAGE_JUMANPP} AS builder
 WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     build-essential \
     gcc \
     g++ \
     make \
     wget \
-    curl \
     ca-certificates \
     zlib1g-dev \
     libtool \
     automake \
     autoconf \
-    git \
-    unzip
+    unzip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Build and install KNP
-RUN git clone --depth 1 https://github.com/ku-nlp/knp.git \
-    && cd knp \
-    && ./autogen.sh \
-    && wget -q http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dict-latest-bin.zip \
+RUN wget "https://github.com/ku-nlp/knp/archive/refs/heads/master.tar.gz" -qO - | tar xzf -
+WORKDIR /app/knp-master
+RUN ./autogen.sh
+RUN wget -q "http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dict-latest-bin.zip" \
     && unzip knp-dict-latest-bin.zip \
     && rm -f knp-dict-latest-bin.zip \
     && cp -ars "$(pwd)"/dict-bin/* ./dict \

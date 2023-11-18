@@ -9,14 +9,15 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     build-essential \
-    gcc \
-    g++ \
-    make \
     cmake \
+    ca-certificates \
+    g++ \
     libprotobuf-dev \
+    make \
+    tar \
     wget \
-    curl \
-    ca-certificates
+    xz-utils \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Build and install Juman++
 RUN wget "https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/jumanpp-${JPP_VERSION}.tar.xz" -qO - \
