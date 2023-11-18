@@ -1,0 +1,5 @@
+ignored:
+  - DL3008 # Pin versions in apt get install
+  - DL3006 # Always tag the version of an image explicitly
+  - DL3003 # Use WORKDIR to switch to a directory
+  - DL3013 # Pin versions in pip

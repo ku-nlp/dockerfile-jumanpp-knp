@@ -14,14 +14,16 @@ RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     cmake \
     libprotobuf-dev \
     wget \
-    curl \
+    tar \
+    xz-utils \
     ca-certificates \
     zlib1g-dev \
     libtool \
     automake \
     autoconf \
     git \
-    unzip
+    unzip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Build and install Juman++
 RUN wget "https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/jumanpp-${JPP_VERSION}.tar.xz" -qO - \
@@ -29,18 +31,19 @@ RUN wget "https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/ju
     && mkdir "jumanpp-${JPP_VERSION}/bld" \
     && cd "jumanpp-${JPP_VERSION}/bld" \
     && cmake .. -DCMAKE_BUILD_TYPE=Release \
-    && make -j "$(nproc)" \
+    && make -j "$([ "$(nproc)" -le 8 ] && nproc || echo "8")" \
     && make install
 
 # Build and install KNP
-RUN git clone --depth 1 https://github.com/ku-nlp/knp.git \
-    && cd knp \
-    && ./autogen.sh \
-    && wget -q http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dict-latest-bin.zip \
+RUN git clone --depth 1 "https://github.com/ku-nlp/knp.git"
+WORKDIR /app/knp
+RUN ./autogen.sh
+RUN wget -q "http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dict-latest-bin.zip" \
     && unzip knp-dict-latest-bin.zip \
+    && rm -f knp-dict-latest-bin.zip \
     && cp -ars "$(pwd)"/dict-bin/* ./dict \
     && ./configure \
-    && make -j "$(nproc)" \
+    && make -j "$([ "$(nproc)" -le 8 ] && nproc || echo "8")" \
     && make install
 
 FROM ${BASE_IMAGE} AS runner
