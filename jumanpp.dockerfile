@@ -1,6 +1,7 @@
 ARG BASE_IMAGE=ubuntu:latest
-ARG JPP_VERSION=2.0.0-rc4
 FROM ${BASE_IMAGE} AS builder
+# ARG should be placed after FROM
+ARG JPP_VERSION=2.0.0-rc4
 WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
 
