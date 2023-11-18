@@ -19,11 +19,12 @@ RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     automake \
     autoconf \
     unzip \
+    git \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Build and install KNP
-RUN wget "https://github.com/ku-nlp/knp/archive/refs/heads/master.tar.gz" -qO - | tar xzf -
-WORKDIR /app/knp-master
+RUN git clone --depth 1 https://github.com/ku-nlp/knp.git
+WORKDIR /app/knp
 RUN ./autogen.sh
 RUN wget -q "http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dict-latest-bin.zip" \
     && unzip knp-dict-latest-bin.zip \
