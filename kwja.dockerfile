@@ -21,12 +21,12 @@ RUN apt-get update -q && apt-get install -yq --no-install-recommends \
     python3-dev \
     python3-pip \
     python3-venv \
+    pipx \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip --no-cache-dir \
-    && pip3 install --no-cache-dir kwja=="${KWJA_VERSION}"
+RUN pipx install --pip-args="--no-cache-dir" kwja=="${KWJA_VERSION}" \
+    && rm -rf /root/.cache
 
-# pre-download models
-# RUN kwja --text 'こんにちは'
+ENV PATH="/root/.local/bin:${PATH}"
 
 CMD ["/bin/bash"]
