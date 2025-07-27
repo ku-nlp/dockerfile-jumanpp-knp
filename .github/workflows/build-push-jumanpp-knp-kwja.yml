@@ -8,7 +8,7 @@ on:
 
 env:
   registry-user: kunlp
-  kwja-version: 2.3.0
+  kwja-version: 2.5.0
 
 jobs:
   build-push-jumanpp:
