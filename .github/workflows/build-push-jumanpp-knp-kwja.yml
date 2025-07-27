@@ -17,7 +17,7 @@ jobs:
       max-parallel: 4
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:24.04", "debian:bullseye"]
+        base-image: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:24.04", "debian:bookworm"]
         include:
           - base-image: "ubuntu:20.04"
             tag: "ubuntu20.04"
@@ -25,8 +25,8 @@ jobs:
             tag: "ubuntu22.04"
           - base-image: "ubuntu:24.04"
             tag: "ubuntu24.04"
-          - base-image: "debian:bullseye"
-            tag: "debian11"
+          - base-image: "debian:bookworm"
+            tag: "debian12"
     steps:
       - name: Generate tags
         id: generate-tags
@@ -55,7 +55,7 @@ jobs:
       max-parallel: 3
       fail-fast: false
       matrix:
-        base-image: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:24.04", "debian:bullseye"]
+        base-image: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:24.04", "debian:bookworm"]
         include:
           - base-image: "ubuntu:20.04"
             tag: "ubuntu20.04"
@@ -63,8 +63,8 @@ jobs:
             tag: "ubuntu22.04"
           - base-image: "ubuntu:24.04"
             tag: "ubuntu24.04"
-          - base-image: "debian:bullseye"
-            tag: "debian11"
+          - base-image: "debian:bookworm"
+            tag: "debian12"
     steps:
       - name: Generate tags
         id: generate-tags
