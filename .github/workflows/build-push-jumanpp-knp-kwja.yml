@@ -39,7 +39,7 @@ jobs:
           fi
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/build-push-image
         with:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -76,7 +76,7 @@ jobs:
           fi
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/build-push-image
         with:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -112,7 +112,7 @@ jobs:
           fi
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/build-push-image
         with:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -148,7 +148,7 @@ jobs:
           fi
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/build-push-image
         with:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -184,7 +184,7 @@ jobs:
           fi
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ./.github/actions/build-push-image
         with:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
