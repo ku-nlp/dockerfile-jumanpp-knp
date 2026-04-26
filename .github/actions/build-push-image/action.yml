@@ -11,6 +11,9 @@ inputs:
   dockerfile:
     description: "Dockerfile to build"
     required: true
+  cache-scope:
+    description: "Cache scope for GitHub Actions cache backend"
+    required: true
   build-args:
     description: "Build args for Dockerfile"
     required: true
@@ -39,5 +42,5 @@ runs:
         build-args: ${{ inputs.build-args }}
         push: true
         tags: ${{ inputs.tags }}
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache
+        cache-from: type=gha,scope=${{ inputs.cache-scope }}
+        cache-to: type=gha,mode=max,scope=${{ inputs.cache-scope }}

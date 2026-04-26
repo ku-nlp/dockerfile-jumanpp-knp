@@ -3,8 +3,15 @@ name: build-push-jumanpp-knp-kwja
 # DO NOT trigger on pull requests for security reasons
 on:
   schedule:
-    - cron: '0 20 */16 * *'  # Runs at 20:00 UTC on the 1 and 17th of every month.
+    - cron: '0 20 1,17 * *'  # Runs at 20:00 UTC on the 1st and 17th of every month.
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
 
 env:
   registry-user: kunlp
@@ -12,7 +19,8 @@ env:
 
 jobs:
   build-push-jumanpp:
-    runs-on: self-hosted
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       fail-fast: false
@@ -45,12 +53,14 @@ jobs:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
           registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: jumanpp.dockerfile
+          cache-scope: jumanpp-${{ matrix.tag }}
           build-args: |
             BASE_IMAGE=${{ matrix.base-image }}
           tags: ${{ steps.generate-tags.outputs.tags }}
 
   build-push-kwja:
-    runs-on: self-hosted
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 3
       fail-fast: false
@@ -82,6 +92,7 @@ jobs:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
           registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: kwja.dockerfile
+          cache-scope: kwja-${{ matrix.tag }}
           build-args: |
             BASE_IMAGE=${{ matrix.base-image }}
             KWJA_VERSION=${{ env.kwja-version }}
@@ -89,7 +100,8 @@ jobs:
 
   build-push-jumanpp-knp:
     needs: build-push-jumanpp
-    runs-on: self-hosted
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
       fail-fast: false
@@ -118,6 +130,7 @@ jobs:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
           registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: jumanpp-knp.dockerfile
+          cache-scope: jumanpp-knp-${{ matrix.tag }}
           build-args: |
             BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
             BASE_IMAGE=${{ matrix.base-image }}
@@ -125,7 +138,8 @@ jobs:
 
   build-push-jumanpp-kwja:
     needs: [build-push-jumanpp, build-push-kwja]
-    runs-on: self-hosted
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
       fail-fast: false
@@ -154,6 +168,7 @@ jobs:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
           registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: jumanpp-kwja.dockerfile
+          cache-scope: jumanpp-kwja-${{ matrix.tag }}
           build-args: |
             BASE_IMAGE_JUMANPP=${{ env.registry-user }}/jumanpp:${{ matrix.tag }}
             BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:${{ matrix.tag }}
@@ -161,7 +176,8 @@ jobs:
 
   build-push-jumanpp-knp-kwja:
     needs: [build-push-jumanpp-knp, build-push-kwja]
-    runs-on: self-hosted
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
       fail-fast: false
@@ -190,6 +206,7 @@ jobs:
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
           registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
           dockerfile: jumanpp-knp-kwja.dockerfile
+          cache-scope: jumanpp-knp-kwja-${{ matrix.tag }}
           build-args: |
             BASE_IMAGE_JUMANPP_KNP=${{ env.registry-user }}/jumanpp-knp:${{ matrix.tag }}
             BASE_IMAGE_KWJA=${{ env.registry-user }}/kwja:${{ matrix.tag }}
