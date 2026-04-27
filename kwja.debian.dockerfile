@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 ARG KWJA_VERSION
 WORKDIR /app
 ENV DEBIAN_FRONTEND=noninteractive
