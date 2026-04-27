@@ -15,17 +15,15 @@ ENV LANG="ja_JP.UTF-8" \
 RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
 
 RUN apt-get update -q && apt-get install -yq --no-install-recommends \
-    wget \
     build-essential \
     ca-certificates \
-    python3-dev \
-    python3-pip \
-    python3-venv \
-    pipx \
+    curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pipx install --pip-args="--no-cache-dir" kwja=="${KWJA_VERSION}" \
-    && rm -rf /root/.cache
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+RUN /root/.local/bin/uv tool install --no-cache kwja=="${KWJA_VERSION}" --python 3.13
 
 ENV PATH="/root/.local/bin:${PATH}"
 
