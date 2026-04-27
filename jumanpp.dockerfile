@@ -24,7 +24,7 @@ RUN wget "https://github.com/ku-nlp/jumanpp/releases/download/v${JPP_VERSION}/ju
     | tar Jxf - \
     && mkdir "jumanpp-${JPP_VERSION}/bld" \
     && cd "jumanpp-${JPP_VERSION}/bld" \
-    && cmake .. -DCMAKE_BUILD_TYPE=Release \
+    && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     && make -j "$([ "$(nproc)" -le 8 ] && nproc || echo "8")" \
     && make install
 
