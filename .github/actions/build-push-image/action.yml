@@ -43,4 +43,4 @@ runs:
         push: true
         tags: ${{ inputs.tags }}
         cache-from: type=gha,scope=${{ inputs.cache-scope }}
-        cache-to: type=gha,mode=max,scope=${{ inputs.cache-scope }}
+        cache-to: type=gha,mode=max,ignore-error=true,scope=${{ inputs.cache-scope }}
