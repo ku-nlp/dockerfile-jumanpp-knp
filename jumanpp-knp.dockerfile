@@ -30,7 +30,7 @@ RUN wget -q "http://lotus.kuee.kyoto-u.ac.jp/nl-resource/knp/dict/latest/knp-dic
     && unzip knp-dict-latest-bin.zip \
     && rm -f knp-dict-latest-bin.zip \
     && cp -ars "$(pwd)"/dict-bin/* ./dict \
-    && ./configure \
+    && CFLAGS="-g -O2 -std=gnu89" ./configure \
     && make -j "$([ "$(nproc)" -le 8 ] && nproc || echo "8")" \
     && make install
 
