@@ -22,7 +22,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
       fail-fast: false
       matrix:
         base-image: ["ubuntu:22.04", "ubuntu:24.04", "ubuntu:26.04", "debian:trixie"]
@@ -62,7 +61,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
       fail-fast: false
       matrix:
         base-image: ["ubuntu:22.04", "ubuntu:24.04", "ubuntu:26.04", "debian:trixie"]
@@ -103,7 +101,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 3
       fail-fast: false
       matrix:
         base-image: ["ubuntu:22.04", "ubuntu:24.04", "ubuntu:26.04"]
@@ -141,7 +138,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 3
       fail-fast: false
       matrix:
         base-image: ["ubuntu:22.04", "ubuntu:24.04", "ubuntu:26.04"]
@@ -179,7 +175,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 3
       fail-fast: false
       matrix:
         base-image: ["ubuntu:22.04", "ubuntu:24.04", "ubuntu:26.04"]
